@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Draggable equation builder for ontrack using jQuery UI</title>
+  <link rel="stylesheet" href="styles/style.css">
+  <link rel="stylesheet" href="styles/view-data.css">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</head>
+  <body>
+    <script src="script.js"></script>
+
+    <main class="wrapper">
+
+      <section>
+        <h2 class="m-b-10">Create a question dependency</h2>
+        <table>
+          <tr class="components">
+            <td>
+              <select name="question" id="question">
+                <option value="">--questions--</option>
+                <option value="q1">question 1</option>
+                <option value="q2">question 2</option>
+                <option value="q3">question 3</option>
+                <option value="q4">question 4</option>
+                <option value="q5">question 5</option>
+              </select>
+            </td>
+            <td>
+              <select name="answer" id="answer">
+                <option value="">--answers--</option>
+                <option value="a1">answer 1</option>
+                <option value="a2">answer 2</option>
+                <option value="a3">answer 3</option>
+                <option value="a4">answer 4</option>
+                <option value="a5">answer 5</option>
+              </select>
+            </td>
+            <td>
+              <select name="bracket" id="bracket">
+                <option value="">--brackets--</option>
+                <option value="(">(</option>
+                <option value=")">)</option>
+              </select>
+            </td>
+            <td>
+              <select name="comparison" id="comparison">
+                <option value="">--comparison--</option>
+                <option value="==">==</option>
+                <option value="!=">!=</option>
+                <option value=">">&gt;</option>
+                <option value="<">&lt;</option>
+                <option value=">=">&gt;=</option>
+                <option value="<=">&lt;=</option>
+              </select>
+            </td>
+            <td>
+              <select name="logical" id="logical">
+                <option value="">--logical--</option>
+                <option value="AND">AND</option>
+                <option value="NOT">NOT</option>
+              </select>
+            </td>
+          </tr>
+          <tr class="add-buttons">
+            <td>
+              <button class="ui-button ui-widget ui-corner-all m-b-20" id="add-question" value="Add Question">+</button>
+            </td>
+            <td>
+              <button class="ui-button ui-widget ui-corner-all m-b-20" id="add-answer" value="Add Answer">+</button>
+            </td>
+            <td>
+              <button class="ui-button ui-widget ui-corner-all m-b-20" id="add-bracket" value="Add Bracket">+</button>
+            </td>
+            <td>
+              <button class="ui-button ui-widget ui-corner-all m-b-20" id="add-comparison" value="Add Comparison Operator">+</button>
+            </td>
+            <td>
+              <button class="ui-button ui-widget ui-corner-all m-b-20" id="add-logical" value="Add Logical Operator">+</button>
+            </td>
+          </tr>
+        </table>
+        
+          <div>
+            <ul class="sortable">
+              <!-- <li data-item="1"><span class="draggable"></span>Item 1<span class="remove"></span></li>-->
+            </ul>
+          </div>
+      </section>
+
+      <section class="display">
+        <details open>
+          <summary>View updated data</summary>
+          <pre class="data">{}</pre>
+        </details>
+      </section>
+
+    </main>
+ 
+  </body>
+</html>

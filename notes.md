@@ -1,0 +1,1 @@
+- replace native menus with jquery ui ones
