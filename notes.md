@@ -1,1 +1,1 @@
-- replace native menus with jquery ui ones
+- move remove button to top right

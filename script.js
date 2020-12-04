@@ -1,5 +1,14 @@
 $(function() {
 
+  $("select").selectmenu({
+    width: 120,
+    change: function(e, data) {
+      var value = data.item.value || e.target.value;
+    },
+    create: function(event, ui) {
+    }
+  });
+
   var components = ['question', 'answer', 'bracket', 'comparison', 'logical'];
 
   components.forEach(function(item) {

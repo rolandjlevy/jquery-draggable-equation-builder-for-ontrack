@@ -17,11 +17,11 @@
 
       <section>
         <h2 class="m-b-10">Create a question dependency</h2>
-        <table>
+        <table class="m-b-20">
           <tr class="components">
             <td>
-              <select name="question" id="question">
-                <option value="">--questions--</option>
+              <select name="question" id="question" class="ui-selectmenu-menu ui-widget ui-corner-all">
+                <option value="">- questions -</option>
                 <option value="q1">question 1</option>
                 <option value="q2">question 2</option>
                 <option value="q3">question 3</option>
@@ -30,8 +30,8 @@
               </select>
             </td>
             <td>
-              <select name="answer" id="answer">
-                <option value="">--answers--</option>
+              <select name="answer" id="answer" class="ui-selectmenu-menu ui-widget ui-corner-all">
+                <option value="">- answers -</option>
                 <option value="a1">answer 1</option>
                 <option value="a2">answer 2</option>
                 <option value="a3">answer 3</option>
@@ -40,15 +40,15 @@
               </select>
             </td>
             <td>
-              <select name="bracket" id="bracket">
-                <option value="">--brackets--</option>
+              <select name="bracket" id="bracket" class="ui-selectmenu-menu ui-widget ui-corner-all">
+                <option value="">- brackets -</option>
                 <option value="(">(</option>
                 <option value=")">)</option>
               </select>
             </td>
             <td>
-              <select name="comparison" id="comparison">
-                <option value="">--comparison--</option>
+              <select name="comparison" id="comparison" class="ui-selectmenu-menu ui-widget ui-corner-all">
+                <option value="">- comparison -</option>
                 <option value="==">==</option>
                 <option value="!=">!=</option>
                 <option value=">">&gt;</option>
@@ -58,8 +58,8 @@
               </select>
             </td>
             <td>
-              <select name="logical" id="logical">
-                <option value="">--logical--</option>
+              <select name="logical" id="logical" class="ui-selectmenu-menu ui-widget ui-corner-all">
+                <option value="">- logical -</option>
                 <option value="AND">AND</option>
                 <option value="NOT">NOT</option>
               </select>
@@ -67,19 +67,19 @@
           </tr>
           <tr class="add-buttons">
             <td>
-              <button class="ui-button ui-widget ui-corner-all m-b-20" id="add-question" value="Add Question">+</button>
+              <button class="ui-button ui-widget ui-corner-all" id="add-question" value="Add Question">+</button>
             </td>
             <td>
-              <button class="ui-button ui-widget ui-corner-all m-b-20" id="add-answer" value="Add Answer">+</button>
+              <button class="ui-button ui-widget ui-corner-all" id="add-answer" value="Add Answer">+</button>
             </td>
             <td>
-              <button class="ui-button ui-widget ui-corner-all m-b-20" id="add-bracket" value="Add Bracket">+</button>
+              <button class="ui-button ui-widget ui-corner-all" id="add-bracket" value="Add Bracket">+</button>
             </td>
             <td>
-              <button class="ui-button ui-widget ui-corner-all m-b-20" id="add-comparison" value="Add Comparison Operator">+</button>
+              <button class="ui-button ui-widget ui-corner-all" id="add-comparison" value="Add Comparison Operator">+</button>
             </td>
             <td>
-              <button class="ui-button ui-widget ui-corner-all m-b-20" id="add-logical" value="Add Logical Operator">+</button>
+              <button class="ui-button ui-widget ui-corner-all" id="add-logical" value="Add Logical Operator">+</button>
             </td>
           </tr>
         </table>
@@ -93,7 +93,7 @@
 
       <section class="display">
         <details open>
-          <summary>Updated data</summary>
+          <summary>Data</summary>
           <pre class="data"></pre>
         </details>
       </section>
