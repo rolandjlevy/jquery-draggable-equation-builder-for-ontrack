@@ -20,7 +20,7 @@ $(function() {
 
   function bindRemoveEvent() {
     $(".sortable > li > .remove").unbind('click').click(function(e){
-      var id = $(e.target.parentNode).attr('data-item');
+      var data = $(e.target.parentNode).attr('data-item');
       $(this).parent().remove();
       updateData(".sortable");
     });
@@ -40,7 +40,7 @@ $(function() {
       revertDuration: 50,
       placeholder: "ui-sortable-placeholder",
       change: function() {
-        console.log('changed');
+        // console.log('changed');
       },
       sort: function(event, ui){ 
         ui.item.addClass("selected"); 
