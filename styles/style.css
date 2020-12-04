@@ -119,6 +119,10 @@ ul.sortable li:not(:last-child) {
   content: '×';
 }
 
+td {
+  padding: 5px 10px;
+}
+
 .add-buttons {
   text-align: center;
 }

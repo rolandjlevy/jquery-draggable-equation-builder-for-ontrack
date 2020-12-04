@@ -6,7 +6,7 @@ $(function() {
     $('#add-' + item).unbind('click').click(function(){
       var selectedText = $('#' + item).val();
       if (!selectedText) return;
-      var data = item + '=' + selectedText;
+      var data = item + '&colon;&nbsp;' + selectedText;
       appendItem(data, selectedText);
     });
 	});
@@ -27,8 +27,8 @@ $(function() {
   }
 
   function updateData(elem) {
-    var groupList = $(elem).sortable("toArray", {attribute: "data-item"});
-    var data = JSON.stringify({ groupList }, null, 2);
+    var group = $(elem).sortable("toArray", {attribute: "data-item"});
+    var data = JSON.stringify({ group }, null, 2);
     $('.data').text(data);
   }
 
