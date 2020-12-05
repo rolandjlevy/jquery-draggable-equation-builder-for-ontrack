@@ -15,7 +15,7 @@ $(function() {
     $('#add-' + item).unbind('click').click(function(){
       var selectedText = $('#' + item).val();
       if (!selectedText) return;
-      var data = item + '&colon;&nbsp;' + selectedText;
+      var data = item + ':' + selectedText;
       appendItem(data, selectedText);
     });
 	});
@@ -37,7 +37,11 @@ $(function() {
 
   function updateData(elem) {
     var group = $(elem).sortable("toArray", {attribute: "data-item"});
-    var data = JSON.stringify({ group }, null, 2);
+    var json = group.map(function(item){
+      var pair = item.split(':');
+      return {type:pair[0], value:pair[1]};
+    });
+    var data = JSON.stringify(json, null, 2);
     $('.data').text(data);
   }
 
@@ -48,8 +52,8 @@ $(function() {
       revert: true,
       revertDuration: 50,
       placeholder: "ui-sortable-placeholder",
-      change: function() {
-        // console.log('changed');
+      change: function(event, ui) {
+        console.log({item:ui.item});
       },
       sort: function(event, ui){ 
         ui.item.addClass("selected"); 
