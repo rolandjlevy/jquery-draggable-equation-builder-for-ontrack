@@ -29,7 +29,7 @@ $(function() {
   };
 
   function bindRemoveEvent() {
-    $(".sortable > li > .remove").unbind('click').click(function(e){
+    $(".sortable .remove").unbind('click').click(function(e){
       var data = $(e.target.parentNode).attr('data-item');
       $(this).parent().remove();
       updateData(".sortable");
