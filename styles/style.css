@@ -113,12 +113,13 @@ ul.sortable li:not(:last-child) {
 /*****************/
 
 .remove {
+  float: right;
   background-color: #f0f0f0;
   border: 1px solid grey;
   color: red;
-  padding: 0 3px;
-  width: 6px;
-  height: 6px;
+  padding: 2px;
+  width: 10px;
+  height: 10px;
   font-size: 0.875rem;
   border-radius: 2px;
   line-height: 1;
