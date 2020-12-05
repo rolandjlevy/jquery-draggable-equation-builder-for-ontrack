@@ -14,15 +14,19 @@ $(function() {
 
   components.forEach(function(item) {
     $('#add-' + item).unbind('click').click(function(){
-      var selectedText = $('#' + item).val();
+      var selectedText = cleanHtmlTag($('#' + item).val());
       if (!selectedText) return;
       var data = item + ':' + selectedText;
       appendItem(data, selectedText);
     });
 	});
 
+  function cleanHtmlTag(str) {
+    return str.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
   function appendItem(data, selectedText) {
-    $("<li data-item=" + data + "><span class='draggable'>" + selectedText + " " + "<span class='remove'></span></span></li>").appendTo($(".sortable"));
+    $("<li data-item=" + data + "><span class='draggable'>" + selectedText + "</span><span class='remove'></span></li>").appendTo($(".sortable"));
     $(".sortable").sortable("refresh");
     bindRemoveEvent();
     updateData(".sortable");
@@ -31,7 +35,7 @@ $(function() {
   function bindRemoveEvent() {
     $(".sortable .remove").unbind('click').click(function(e){
       var data = $(e.target.parentNode).attr('data-item');
-      $(this).parent().parent().remove();
+      $(this).parent().remove();
       updateData(".sortable");
     });
   }
