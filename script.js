@@ -4,6 +4,7 @@ $(function() {
     width: 120,
     change: function(e, data) {
       var value = data.item.value || e.target.value;
+      $('#add-' + this.id).attr('disabled', !data.item.index);
     },
     create: function(event, ui) {
     }
@@ -21,7 +22,7 @@ $(function() {
 	});
 
   function appendItem(data, selectedText) {
-    $("<li data-item=" + data + "><span class='draggable'></span>" + selectedText + " " + "<span class='remove'></span></li>").appendTo($(".sortable"));
+    $("<li data-item=" + data + "><span class='draggable'>" + selectedText + " " + "<span class='remove'></span></span></li>").appendTo($(".sortable"));
     $(".sortable").sortable("refresh");
     bindRemoveEvent();
     updateData(".sortable");
@@ -37,9 +38,9 @@ $(function() {
 
   function updateData(elem) {
     var group = $(elem).sortable("toArray", {attribute: "data-item"});
-    var json = group.map(function(item){
+    var json = group.map(function(item, index){
       var pair = item.split(':');
-      return {type:pair[0], value:pair[1]};
+      return { component:pair[0], value:pair[1], sortOrder:index+1 };
     });
     var data = JSON.stringify(json, null, 2);
     $('.data').text(data);
@@ -53,7 +54,7 @@ $(function() {
       revertDuration: 50,
       placeholder: "ui-sortable-placeholder",
       change: function(event, ui) {
-        console.log({item:ui.item});
+        // console.log(ui.item);
       },
       sort: function(event, ui){ 
         ui.item.addClass("selected"); 

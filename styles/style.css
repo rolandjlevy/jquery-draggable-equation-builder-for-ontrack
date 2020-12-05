@@ -9,6 +9,7 @@
   --ontrack-green-dark: #616900;
   --draggable-icon: url(../images/draggable.gif);
   --body-padding: 40px;
+  --item-height: 30px;
 }
 
 body {
@@ -45,16 +46,17 @@ ul.sortable {
   justify-content: flex-start;
   flex-wrap: wrap;
   border: 1px solid #ddd;
-  min-height: 40px;
+  min-height: var(--item-height);
 }
 
 ul.sortable li {
   background-color: var(--item-bg);
-  padding: 10px; 
   font-size: 1rem;
   transition: background-color 0.15s ease;
   white-space: nowrap;
   width: auto;
+  padding: 0;
+  height: fit-content;
   /* border: 1px solid var(--item-border); */
 }
 
@@ -68,7 +70,7 @@ ul.sortable li:not(:last-child) {
   border-right: 1px solid var(--item-border);
 }
 
-.draggable {
+.draggable-image {
   background-image: var(--draggable-icon);
   display: block;
   width: 18px;
@@ -78,6 +80,12 @@ ul.sortable li:not(:last-child) {
   cursor: move;
 }
 
+.draggable {
+  display: inline-block;
+  cursor: move;
+  padding: 6px 10px;
+}
+
 .selected {
   border-right: none !important;
   /* border: 1px solid var(--item-border); */
@@ -85,24 +93,31 @@ ul.sortable li:not(:last-child) {
 }
 
 .ui-sortable-placeholder {
+  --border-size: 2px;
   display: inline-block;
-  border: 2px dashed var(--placeholder-border) !important;
+  border: var(--border-size) dashed var(--placeholder-border) !important;
   background-color: var(--placeholder-bg) !important;
-  height: auto;
+  height: calc(--item-height - var(--border-size) * 2) !important;
   min-width: 80px !important;
+  padding: 0 !important;
 }
 
 .ui-widget-content {
   border: 1px solid var(--item-border) !important;
 }
 
+/*****************/
+/* Remove button */
+/*****************/
+
 .remove {
   background-color: #f0f0f0;
   border: 1px solid grey;
   color: red;
   padding: 0 3px;
-  width: 10px;
-  height: 10px;
+  width: 6px;
+  height: 6px;
+  font-size: 0.875rem;
   border-radius: 2px;
   line-height: 1;
   cursor: pointer;
@@ -125,6 +140,19 @@ td {
   padding: 5px 10px;
 }
 
+/********/
+/* Form */
+/********/
+
 .add-buttons {
   text-align: center;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: auto;
+}
+
+button:disabled:hover {
+  background-color: #f6f6f6 !important;
 }
