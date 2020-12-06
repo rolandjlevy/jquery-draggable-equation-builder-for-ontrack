@@ -17,10 +17,6 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.m-b-5 {
-  margin: 0 0 5px 0;
-}
-
 .m-b-10 {
   margin: 0 0 10px 0;
 }
@@ -52,7 +48,7 @@ ul.sortable {
 ul.sortable li {
   background-color: var(--item-bg);
   font-size: 1rem;
-  transition: background-color 0.15s ease;
+  transition: all 0.15s ease;
   white-space: nowrap;
   width: auto;
   padding: 0;
@@ -87,9 +83,9 @@ ul.sortable li:not(:last-child) {
 }
 
 .selected {
-  /* border-right: none !important; */
   /* border: 1px solid var(--item-border); */
-  box-shadow: 0px 0px 5px 2px #00000033;
+  box-shadow: 0px 5px 5px -2px #00000033;
+  transition: box-shadow 0.25 ease;
 }
 
 .ui-sortable-placeholder {
@@ -98,7 +94,7 @@ ul.sortable li:not(:last-child) {
   border: var(--border-size) dashed var(--placeholder-border) !important;
   background-color: var(--placeholder-bg) !important;
   height: calc(--item-height - var(--border-size) * 2) !important;
-  min-width: 80px !important;
+  min-width: 83px !important;
   padding: 0 !important;
 }
 

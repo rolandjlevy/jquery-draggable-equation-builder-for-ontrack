@@ -1,13 +1,12 @@
 $(function() {
 
   $("select").selectmenu({
-    width: 120,
+    width: 125,
     change: function(e, data) {
       var value = data.item.value || e.target.value;
       $('#add-' + this.id).attr('disabled', !data.item.index);
     },
-    create: function(event, ui) {
-    }
+    create: function(event, ui) {}
   });
 
   var components = ['question', 'answer', 'bracket', 'comparison', 'logical'];
@@ -18,6 +17,7 @@ $(function() {
       if (!selectedText) return;
       var data = item + ':' + selectedText;
       appendItem(data, selectedText);
+      updateData(".sortable");
     });
 	});
 
@@ -27,17 +27,12 @@ $(function() {
 
   function appendItem(data, selectedText) {
     $("<li data-item=" + data + "><span class='draggable'>" + selectedText + "</span><span class='remove'></span></li>").appendTo($(".sortable"));
-    $(".sortable").sortable("refresh");
-    bindRemoveEvent();
-    updateData(".sortable");
-  };
-
-  function bindRemoveEvent() {
     $(".sortable .remove").unbind('click').click(function(e){
       var data = $(e.target.parentNode).attr('data-item');
       $(this).parent().remove();
       updateData(".sortable");
     });
+    $(".sortable").sortable("refresh");
   }
 
   function updateData(elem) {
