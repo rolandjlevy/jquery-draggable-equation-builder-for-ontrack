@@ -8,12 +8,13 @@
   --placeholder-bg: #ffe8af;
   --text-colour: #454545;
   --draggable-icon: url(../images/draggable.gif);
+  --body-padding: 40px;
   --item-height: 32px;
 }
 
 body {
   margin: 0;
-  padding: 40px;
+  padding: var(--body-padding);
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -48,12 +49,12 @@ ul.sortable {
 ul.sortable li {
   background-color: var(--item-bg);
   font-size: 1rem;
-  transition: all 0.15s ease;
   white-space: nowrap;
   width: auto;
   padding: 0;
   height: var(--item-height);
   border: 1px solid var(--item-border);
+  transition: all 0.15s ease;
 }
 
 ul.sortable li:hover {
@@ -62,7 +63,7 @@ ul.sortable li:hover {
 }
 
 ul.sortable li:not(:last-child) {
-  margin: 0 8px 0 0;
+  margin: 0 10px 0 0;
 }
 
 .draggable-image {
