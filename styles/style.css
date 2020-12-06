@@ -1,22 +1,19 @@
 :root {
   --item-bg: #f6f6f6;
   --item-bg-hover: #ededed;
-  --item-border: #ccc;
+  --item-border: #c5c5c5;
   --remove-btn-bg: #ddd;
   --remove-btn-bg-hover: #ccc;
   --placeholder-border:#c1780e;
   --placeholder-bg: #ffe8af;
-  --ontrack-green: #b3c022;
-  --ontrack-green-light: #99CD3D;
-  --ontrack-green-dark: #616900;
+  --text-colour: #454545;
   --draggable-icon: url(../images/draggable.gif);
-  --body-padding: 40px;
   --item-height: 32px;
 }
 
 body {
   margin: 0;
-  padding: var(--body-padding);
+  padding: 40px;
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -69,8 +66,7 @@ ul.sortable li:hover {
 }
 
 ul.sortable li:not(:last-child) {
-  margin: 0 8px 0 0; 
-  /* border-right: 1px solid var(--item-border); */
+  margin: 0 8px 0 0;
 }
 
 .draggable-image {
@@ -121,7 +117,7 @@ ul.sortable li:not(:last-child) {
   float: right;
   background-color: var(--remove-btn-bg); 
   border: none;
-  color: #000;
+  color: var(--text-colour);
   padding: 1px 1px 5px 4px;
   width: 10px;
   height: 10px;
@@ -142,10 +138,6 @@ ul.sortable li:not(:last-child) {
   content: '×';
 }
 
-td {
-  padding: 5px 10px 5px 0;
-}
-
 /********/
 /* Form */
 /********/
@@ -162,3 +154,8 @@ button:disabled {
 button:disabled:hover {
   background-color: #f6f6f6 !important;
 }
+
+td {
+  padding: 5px 10px 5px 0;
+}
+
