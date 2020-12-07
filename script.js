@@ -1,5 +1,12 @@
 $(function() {
 
+
+  var menus = {
+    logical: '<select name="logical" id="logical-clone" class="ui-selectmenu-menu ui-widget ui-corner-all"><option value="AND">AND</option><option value="OR">OR</option></select>',
+    bracket: '<select name="bracket" id="bracket-clone" class="ui-selectmenu-menu ui-widget ui-corner-all"><option value="(">(</option><option value=")">)</option></select>',
+    comparison: '<select name="comparison" id="comparison-clone" class="ui-selectmenu-menu ui-widget ui-corner-all"><option value="==">==</option><option value="!=">!=</option><option value="<">&lt;</option><option value=">">&gt;</option><option value="<=">&lt;=</option><option value=">=">&gt;=</option></select>'
+  }
+
   $("select").selectmenu({
     width: 125,
     change: function(e, data) {
@@ -11,7 +18,38 @@ $(function() {
     }
   });
 
-  var components = ['question', 'answer', 'bracket', 'comparison'];
+  function initMenu(type, width) {
+    $('#add-' + type).unbind('click').click(function(e) {
+      var val = $('#' + type).val();
+      var selectedIndex = $('#' + type + ' :selected').index();
+      const item = $("<li data-item=" + type + ':' + cleanHtmlTag(val) + "><span class='draggable'></span><span class='item-content'></span><span class='remove'></span></li>");
+      item.appendTo($(".sortable"));
+      var itemContent = item.find(".item-content");
+      $(menus[type]).clone().appendTo($(itemContent)).selectmenu({
+        width: width,
+        change: function(event, ui) {
+          $(this).parent().parent().attr('data-item', type + ':' + ui.item.value);
+          updateData(".sortable");
+        },
+        create: function(event, ui) {
+          $(this).val(val);
+          $(this).selectmenu("refresh");
+        }
+      });
+      $(".sortable .remove").unbind('click').click(function(e) {
+        $(this).parent().remove();
+        updateData(".sortable");
+      });
+      updateData(".sortable");
+      $(".sortable").sortable("refresh");
+    });
+  }
+
+  initMenu('comparison', 60);
+  initMenu('bracket', 40);
+  initMenu('logical', 70);
+
+  var components = ['question', 'answer'];
 
   components.forEach(function(item) {
     $('#add-' + item).unbind('click').click(function(){
@@ -26,23 +64,6 @@ $(function() {
   $('#reset').unbind('click').click(function(){
     $(".sortable > li").each(function() { $(this).remove(); });
     updateData(".sortable");
-  });
-
-  $('#add-logical').unbind('click').click(function(){
-    var key = 'logical';
-    var value = 'AND';
-    var data = key + ':' + value;
-    const item = $("<li data-item=" + data + "><span class='draggable'></span><span class='item-content'></span><span class='remove'></span></li>");
-    item.appendTo($(".sortable"));
-    var menu = getLogicalMenu();
-    var itemContent = item.find(".item-content");
-    $(menu).clone().appendTo($(itemContent)).selectmenu({width: 90});
-    $(".sortable .remove").unbind('click').click(function(e){
-      $(this).parent().remove();
-      updateData(".sortable");
-    });
-    updateData(".sortable");
-    $(".sortable").sortable("refresh");
   });
 
   function cleanHtmlTag(str) {
@@ -89,13 +110,6 @@ $(function() {
         updateData(this);
       }
     });
-
-    function getLogicalMenu() {
-      return `<select name="logical" id="logical" class="ui-selectmenu-menu ui-widget ui-corner-all">
-        <option value="AND">AND</option>
-        <option value="OR">OR</option>
-      </select>`;
-    }
 
     updateData('.sortable');
 

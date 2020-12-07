@@ -108,6 +108,10 @@ ul.sortable li > .item {
   border: 1px solid var(--item-border) !important;
 }
 
+.sortable .ui-button {
+  padding: 5px !important;
+}
+
 /*****************/
 /* Remove button */
 /*****************/
