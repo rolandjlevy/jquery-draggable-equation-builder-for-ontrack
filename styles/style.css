@@ -46,6 +46,10 @@ ul.sortable {
 }
 
 ul.sortable li {
+  display: flex;
+  align-content: space-between;
+  justify-content: space-between;
+  flex-direction: row;
   background-color: var(--item-bg);
   font-size: 1rem;
   white-space: nowrap;
@@ -64,7 +68,6 @@ ul.sortable li:hover {
 ul.sortable li:not(:last-child) {
   margin: 0 10px 0 0;
 }
-
 
 ul.sortable li > .item {
   display: inline-block;
@@ -110,6 +113,7 @@ ul.sortable li > .item {
 
 .sortable .ui-button {
   padding: 5px !important;
+  margin: 0;
 }
 
 /*****************/
@@ -117,11 +121,7 @@ ul.sortable li > .item {
 /*****************/
 
 .remove {
-  position: relative;
-  top: 0;
-  right: 0;
-  float: right;
-  background-color: var(--remove-btn-bg); 
+  background-color: transparent; 
   border: none;
   color: var(--text-colour);
   padding: 1px 1px 5px 4px;
@@ -131,12 +131,11 @@ ul.sortable li > .item {
   border-radius: 0;
   line-height: 1;
   cursor: pointer;
-  margin: 0;
   transition: all 0.15s ease;
 }
 
 .remove:hover {
-  background-color: var(--remove-btn-bg-hover);
+  background-color: var(--remove-btn-bg);
   transition: all 0.15s ease;
 }
 

@@ -2,9 +2,9 @@ $(function() {
 
 
   var menus = {
-    logical: '<select name="logical" id="logical-clone" class="ui-selectmenu-menu ui-widget ui-corner-all"><option value="AND">AND</option><option value="OR">OR</option></select>',
+    logical: '<select name="logical" class="ui-selectmenu-menu ui-widget ui-corner-all"><option value="AND">AND</option><option value="OR">OR</option></select>',
     bracket: '<select name="bracket" id="bracket-clone" class="ui-selectmenu-menu ui-widget ui-corner-all"><option value="(">(</option><option value=")">)</option></select>',
-    comparison: '<select name="comparison" id="comparison-clone" class="ui-selectmenu-menu ui-widget ui-corner-all"><option value="==">==</option><option value="!=">!=</option><option value="<">&lt;</option><option value=">">&gt;</option><option value="<=">&lt;=</option><option value=">=">&gt;=</option></select>'
+    comparison: '<select name="comparison" class="ui-selectmenu-menu ui-widget ui-corner-all"><option value="==">==</option><option value="!=">!=</option><option value="<">&lt;</option><option value=">">&gt;</option><option value="<=">&lt;=</option><option value=">=">&gt;=</option></select>'
   }
 
   $("select").selectmenu({
@@ -13,36 +13,37 @@ $(function() {
       var value = data.item.value || e.target.value;
       $('#add-' + this.id).attr('disabled', !data.item.index);
     },
-    create: function(event, ui) {
-      // console.log({event, ui});
-    }
+    create: function(event, ui) { }
   });
 
   function initMenu(type, width) {
     $('#add-' + type).unbind('click').click(function(e) {
       var val = $('#' + type).val();
-      var selectedIndex = $('#' + type + ' :selected').index();
-      const item = $("<li data-item=" + type + ':' + cleanHtmlTag(val) + "><span class='draggable'></span><span class='item-content'></span><span class='remove'></span></li>");
-      item.appendTo($(".sortable"));
-      var itemContent = item.find(".item-content");
+      var item = renderListItem(type, val);
+      item.appendTo($('.sortable'));
+      var itemContent = item.find('.item-content');
       $(menus[type]).clone().appendTo($(itemContent)).selectmenu({
         width: width,
         change: function(event, ui) {
           $(this).parent().parent().attr('data-item', type + ':' + ui.item.value);
-          updateData(".sortable");
+          updateData('.sortable');
         },
         create: function(event, ui) {
           $(this).val(val);
-          $(this).selectmenu("refresh");
+          $(this).selectmenu('refresh');
         }
       });
-      $(".sortable .remove").unbind('click').click(function(e) {
+      $('.sortable .remove').unbind('click').click(function(e) {
         $(this).parent().remove();
-        updateData(".sortable");
+        updateData('.sortable');
       });
-      updateData(".sortable");
-      $(".sortable").sortable("refresh");
+      updateData('.sortable');
+      $('.sortable').sortable('refresh');
     });
+  }
+
+  function renderListItem(type, val) {
+    return $("<li data-item=" + type + ':' + cleanHtmlTag(val) + "><span class='draggable'></span><span class='item-content'></span><span class='remove'></span></li>");
   }
 
   initMenu('comparison', 60);
@@ -97,15 +98,9 @@ $(function() {
       revert: true,
       revertDuration: 50,
       placeholder: "ui-sortable-placeholder",
-      change: function(event, ui) {
-        // console.log(ui.item);
-      },
-      sort: function(event, ui){ 
-        ui.item.addClass("selected"); 
-      },
-      stop: function(event, ui){ 
-        ui.item.removeClass("selected"); 
-      },
+      change: function(event, ui) { },
+      sort: function(event, ui){ ui.item.addClass("selected"); },
+      stop: function(event, ui){ ui.item.removeClass("selected"); },
       update: function(e, ui) {
         updateData(this);
       }
