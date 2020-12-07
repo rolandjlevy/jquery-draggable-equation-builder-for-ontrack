@@ -26,7 +26,6 @@ body {
   margin: 0 0 20px 0;
 }
 
-
 /*********/
 /* Items */
 /*********/
@@ -66,17 +65,23 @@ ul.sortable li:not(:last-child) {
   margin: 0 10px 0 0;
 }
 
-.draggable-image {
+
+ul.sortable li > .item {
+  display: inline-block;
+  margin: 7px 10px 0 0;
+}
+
+.draggable {
   background-image: var(--draggable-icon);
   display: block;
   width: 18px;
   height: 18px;
   float: left;
-  margin: 1px 5px 0 0;
+  margin: 7px 5px 0 5px;
   cursor: move;
 }
 
-.draggable {
+.draggable-li {
   display: inline-block;
   cursor: move;
   padding: 6px 10px;

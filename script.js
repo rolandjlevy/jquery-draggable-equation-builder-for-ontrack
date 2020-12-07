@@ -6,10 +6,12 @@ $(function() {
       var value = data.item.value || e.target.value;
       $('#add-' + this.id).attr('disabled', !data.item.index);
     },
-    create: function(event, ui) {}
+    create: function(event, ui) {
+      // console.log({event, ui});
+    }
   });
 
-  var components = ['question', 'answer', 'bracket', 'comparison', 'logical'];
+  var components = ['question', 'answer', 'bracket', 'comparison'];
 
   components.forEach(function(item) {
     $('#add-' + item).unbind('click').click(function(){
@@ -21,12 +23,34 @@ $(function() {
     });
 	});
 
+  $('#reset').unbind('click').click(function(){
+    $(".sortable > li").each(function() { $(this).remove(); });
+    updateData(".sortable");
+  });
+
+  $('#add-logical').unbind('click').click(function(){
+    var key = 'logical';
+    var value = 'AND';
+    var data = key + ':' + value;
+    const item = $("<li data-item=" + data + "><span class='draggable'></span><span class='item-content'></span><span class='remove'></span></li>");
+    item.appendTo($(".sortable"));
+    var menu = getLogicalMenu();
+    var itemContent = item.find(".item-content");
+    $(menu).clone().appendTo($(itemContent)).selectmenu({width: 90});
+    $(".sortable .remove").unbind('click').click(function(e){
+      $(this).parent().remove();
+      updateData(".sortable");
+    });
+    updateData(".sortable");
+    $(".sortable").sortable("refresh");
+  });
+
   function cleanHtmlTag(str) {
     return str.replace(/</g, "&lt;").replace(/>/g, "&gt;");
   }
 
   function appendItem(data, selectedText) {
-    $("<li data-item=" + data + "><span class='draggable'>" + selectedText + "</span><span class='remove'></span></li>").appendTo($(".sortable"));
+    $("<li data-item=" + data + "><span class='draggable'></span><span class='item'>" + selectedText + "</span><span class='remove'></span></li>").appendTo($(".sortable"));
     $(".sortable .remove").unbind('click').click(function(e){
       var data = $(e.target.parentNode).attr('data-item');
       $(this).parent().remove();
@@ -65,6 +89,13 @@ $(function() {
         updateData(this);
       }
     });
+
+    function getLogicalMenu() {
+      return `<select name="logical" id="logical" class="ui-selectmenu-menu ui-widget ui-corner-all">
+        <option value="AND">AND</option>
+        <option value="OR">OR</option>
+      </select>`;
+    }
 
     updateData('.sortable');
 
