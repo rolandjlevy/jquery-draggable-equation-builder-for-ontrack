@@ -72,6 +72,11 @@ body {
   margin: 0 0 5px 0;
 }
 
+.sortable > li > .item-content > .answer {
+  padding: 5px;
+  max-width: 125px;
+}
+
 .menus #answer-container {
   background-color: var(--item-bg);
   padding: 0;
