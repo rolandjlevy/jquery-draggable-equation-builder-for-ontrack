@@ -1,5 +1,9 @@
 $(function() {
 
+  /**************/
+  /* Initialise */
+  /**************/
+
   var uiElementWidth = 125;
 
   // Define sortable menu items
@@ -9,7 +13,7 @@ $(function() {
     comparison: '<select name="comparison" class="ui-selectmenu-menu ui-widget ui-corner-all"><option value="==">==</option><option value="!=">!=</option><option value="<">&lt;</option><option value=">">&gt;</option><option value="<=">&lt;=</option><option value=">=">&gt;=</option></select>'
   }
 
-  // Define answer elements
+  // Define different elements for Answers
   var answers = [
     { type:'select', value:'<select name="boolean" class="answer ui-selectmenu-menu ui-widget ui-corner-all"><option value="yes">Yes</option><option value="no">No</option></select>' },
     { type:'select', value:'<select name="range-abc" class="answer ui-selectmenu-menu ui-widget ui-corner-all"><option value="na">N/A</option><option value="pass">Pass</option></select>' },
@@ -22,8 +26,7 @@ $(function() {
     width: uiElementWidth,
     change: function(e, ui) {
       $('#add-' + this.id).attr('disabled', !ui.item.index);
-    },
-    create: function(event, ui) { }
+    }
   });
 
   /***************************/
@@ -43,12 +46,20 @@ $(function() {
     create: function(event, ui) { }
   });
 
-  // Initialise Questions add button
+  // Event handler for adding a Question
   $('#add-question').unbind('click').click(function(){
-    var selectedText = cleanHtmlTag($('#question').val());
+    var selectedText = $('#question').val();
     if (!selectedText) return;
-    var data = 'question:' + selectedText;
-    appendItem(data, selectedText);
+    var item = createListItem('question', selectedText);
+    var itemContent = item.find('.item-content');
+    itemContent.html('<span class="item">' + selectedText + '</span>');
+    item.appendTo($('.sortable'));
+    $(".sortable .remove").unbind('click').click(function(e){
+      var data = $(e.target.parentNode).attr('data-item');
+      $(this).parent().remove();
+      updateData(".sortable");
+    });
+    $(".sortable").sortable("refresh");
     updateData(".sortable");
   });
 
@@ -56,7 +67,7 @@ $(function() {
   /* Answers elements */
   /********************/
 
-  // Create Answer element: select or input
+  // Create Answer element in dependence upon Question menu
   function createAnswerElement(selectedIndex) {
     var answerContainer = $('#answer-container');
     answerContainer.empty();
@@ -76,11 +87,11 @@ $(function() {
     }
   }
   
-  // Answers add button event handler  
+  // Event handler for adding an answer element
   $('#add-answer').unbind('click').click(function(){
     var val = $('#answer-container > .answer').val();
     var selectedIndex = $('#question option:selected').index();
-    var item = renderListItem('answer', val);
+    var item = createListItem('answer', val);
     item.appendTo($('.sortable'));
     var itemContent = item.find('.item-content');
     var answer = answers[selectedIndex-1];
@@ -113,11 +124,11 @@ $(function() {
     $('.sortable').sortable('refresh');
   });
 
-  // Initialise all sortable menus
+  // Event handler for adding a comparison, bracket and logical menu
   function initMenu(type, width) {
     $('#add-' + type).unbind('click').click(function(e) {
       var val = $('#' + type).val();
-      var item = renderListItem(type, val);
+      var item = createListItem(type, val);
       item.appendTo($('.sortable'));
       var itemContent = item.find('.item-content');
       $(menus[type]).clone().appendTo($(itemContent)).selectmenu({
@@ -140,28 +151,17 @@ $(function() {
     });
   }
 
-  function appendItem(data, selectedText) {
-    $("<li data-item=" + data + "><span class='draggable'></span><span class='item'>" + selectedText + "</span><span class='remove'></span></li>").appendTo($(".sortable"));
-    $(".sortable .remove").unbind('click').click(function(e){
-      var data = $(e.target.parentNode).attr('data-item');
-      $(this).parent().remove();
-      updateData(".sortable");
-    });
-    $(".sortable").sortable("refresh");
-  }
-
-  function renderListItem(type, val) {
-    return $("<li data-item=" + type + ':' + cleanHtmlTag(val) + "><span class='draggable'></span><span class='item-content'></span><span class='remove'></span></li>");
+  // Create a list item for sortable area
+  function createListItem(type, val) {
+    var cleanedValue = val.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    return $("<li data-item=" + type + ':' + cleanedValue + "><span class='draggable'></span><span class='item-content'></span><span class='remove'></span></li>");
   }
 
   initMenu('comparison', 50);
   initMenu('bracket', 40);
   initMenu('logical', 65);
 
-  function cleanHtmlTag(str) {
-    return str.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-  }
-
+  // Event handler for reset button
   $('#reset').unbind('click').click(function(){
     $(".sortable > li").each(function() { $(this).remove(); });
     updateData(".sortable");
@@ -172,18 +172,13 @@ $(function() {
   /*****************/
 
   $(".sortable").sortable({
-    // axis: "x", 
-    // revert: true,
-    // revertDuration: 50,
     items: "> li",
     handle: ".draggable",
     placeholder: "ui-sortable-placeholder",
     change: function(event, ui) { },
     sort: function(event, ui){ ui.item.addClass("selected"); },
     stop: function(event, ui){ ui.item.removeClass("selected"); },
-    update: function(e, ui) {
-      updateData(this);
-    }
+    update: function(e, ui) { updateData(this); }
   });
 
   /***************************/

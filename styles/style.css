@@ -133,9 +133,9 @@ ul.sortable li {
   margin: 0 10px 10px 0;
 }
 
-ul.sortable li > .item {
+ul.sortable li .item {
   display: inline-block;
-  margin: 7px 10px 0 0;
+  margin: 6px 5px 0 2px;
 }
 
 .selected {
@@ -168,7 +168,6 @@ ul.sortable li > .item {
 
 .draggable {
   background-image: var(--draggable-icon);
-  /* filter: brightness(0.5); */
   display: block;
   width: 18px;
   height: 18px;
