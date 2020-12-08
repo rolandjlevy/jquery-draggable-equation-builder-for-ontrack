@@ -17,78 +17,65 @@
 
       <section>
         <h2 class="m-b-10">Build rules for a question dependency</h2>
-        <table class="m-b-20">
-          <tr class="components">
-            <td>
-              <select name="question" id="question" class="ui-selectmenu-menu ui-widget ui-corner-all">
-                <option value="">- questions -</option>
-                <option value="q1">question 1</option>
-                <option value="q2">question 2</option>
-                <option value="q3">question 3</option>
-                <option value="q4">question 4</option>
-                <option value="q5">question 5</option>
-              </select>
-            </td>
-            <td>
-              <select name="comparison" id="comparison" class="ui-selectmenu-menu ui-widget ui-corner-all">
-                <option value="">- comparison -</option>
-                <option value="==">==</option>
-                <option value="!=">!=</option>
-                <option value="<">&lt;</option>
-                <option value=">">&gt;</option>
-                <option value="<=">&lt;=</option>
-                <option value=">=">&gt;=</option>
-              </select>
-            </td>
-            <td>
-              <select name="answer" id="answer" class="ui-selectmenu-menu ui-widget ui-corner-all">
-                <option value="">- answers -</option>
-                <option value="a1">answer 1</option>
-                <option value="a2">answer 2</option>
-                <option value="a3">answer 3</option>
-                <option value="a4">answer 4</option>
-                <option value="a5">answer 5</option>
-              </select>
-            </td>
-            <td>
-              <select name="bracket" id="bracket" class="ui-selectmenu-menu ui-widget ui-corner-all">
-                <option value="">- brackets -</option>
-                <option value="(">(</option>
-                <option value=")">)</option>
-              </select>
-            </td>
-            <td>
-              <select name="logical" id="logical" class="ui-selectmenu-menu ui-widget ui-corner-all">
-                <option value="">- logical -</option>
-                <option value="AND">AND</option>
-                <option value="OR">OR</option>
-              </select>
-            </td>
-          </tr>
-          <tr class="add-buttons">
-            <td>
-              <button class="ui-button ui-widget ui-corner-all" id="add-question" value="Add Question" disabled>+</button>
-            </td>
-            <td>
-              <button class="ui-button ui-widget ui-corner-all" id="add-comparison" value="Add Comparison Operator" disabled>+</button>
-            </td>
-            <td>
-              <button class="ui-button ui-widget ui-corner-all" id="add-answer" value="Add Answer" disabled>+</button>
-            </td>
-            <td>
-              <button class="ui-button ui-widget ui-corner-all" id="add-bracket" value="Add Bracket" disabled>+</button>
-            </td>
-            <td>
-              <button class="ui-button ui-widget ui-corner-all" id="add-logical" value="Add Logical Operator" disabled>+</button>
-            </td>
-          </tr>
-        </table>
-        
-          <div class="m-b-20">
-            <ul class="sortable"></ul>
-          </div>
 
-          <button class="ui-button ui-widget ui-corner-all" id="reset" value="Reset">Reset</button>
+        <ul class="menus">
+          <li>
+            <select name="question" id="question" class="ui-selectmenu-menu ui-widget ui-corner-all">
+              <option value="">- questions -</option>
+              <option value="q1">question 1</option>
+              <option value="q2">question 2</option>
+              <option value="q3">question 3</option>
+              <option value="q4">question 4</option>
+              <option value="q5">question 5</option>
+            </select>
+            <button class="ui-button ui-widget ui-corner-all" id="add-question" value="Add Question" disabled>+</button>
+          </li>
+          <li>
+            <select name="comparison" id="comparison" class="ui-selectmenu-menu ui-widget ui-corner-all">
+              <option value="">- comparison -</option>
+              <option value="==">==</option>
+              <option value="!=">!=</option>
+              <option value="<">&lt;</option>
+              <option value=">">&gt;</option>
+              <option value="<=">&lt;=</option>
+              <option value=">=">&gt;=</option>
+            </select>
+            <button class="ui-button ui-widget ui-corner-all" id="add-comparison" value="Add Comparison Operator" disabled>+</button>
+          </li>
+          <li>
+            <select name="answer" id="answer" class="ui-selectmenu-menu ui-widget ui-corner-all">
+              <option value="">- answers -</option>
+              <option value="a1">answer 1</option>
+              <option value="a2">answer 2</option>
+              <option value="a3">answer 3</option>
+              <option value="a4">answer 4</option>
+              <option value="a5">answer 5</option>
+            </select>
+            <button class="ui-button ui-widget ui-corner-all" id="add-answer" value="Add Answer" disabled>+</button>
+          </li>
+          <li>
+            <select name="bracket" id="bracket" class="ui-selectmenu-menu ui-widget ui-corner-all">
+              <option value="">- brackets -</option>
+              <option value="(">(</option>
+              <option value=")">)</option>
+            </select>
+            <button class="ui-button ui-widget ui-corner-all" id="add-bracket" value="Add Bracket" disabled>+</button>
+          </li>
+          <li>
+            <select name="logical" id="logical" class="ui-selectmenu-menu ui-widget ui-corner-all">
+              <option value="">- logical -</option>
+              <option value="AND">AND</option>
+              <option value="OR">OR</option>
+            </select>
+            <button class="ui-button ui-widget ui-corner-all" id="add-logical" value="Add Logical Operator" disabled>+</button>
+          </li>
+        </ul>
+
+        <div class="m-b-20">
+          <ul class="sortable"></ul>
+        </div>
+
+        <button class="ui-button ui-widget ui-corner-all" id="reset" value="Reset">Reset</button>
 
       </section>
 

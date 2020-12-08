@@ -23,7 +23,7 @@ details > summary {
 .data {
   border: 1px solid #ccc;
   min-height: 20px;
-  width: calc(100% - 10px);
+  width: auto;
   display: block; 
   clear: both; 
   float: left;
@@ -32,7 +32,7 @@ details > summary {
   font-size: 1.125rem;
 }
 
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width: 1200px) {
   .wrapper {
     flex-direction: column;
   }

@@ -4,12 +4,17 @@
   --item-border: #c5c5c5;
   --remove-btn-bg: #ddd;
   --remove-btn-bg-hover: #ccc;
+  --sortable-border: #ccc;
   --placeholder-border:#c1780e;
   --placeholder-bg: #ffe8af;
+  --ontrack-green: #b3c022;
+  --ontrack-green-hover: #a3af17;
+  --ontrack-green-light: #99CD3D;
+  --ontrack-green-dark: #616900;
   --text-colour: #454545;
   --draggable-icon: url(../images/draggable.gif);
   --body-padding: 40px;
-  --item-height: 32px;
+  --item-height: 30px;
 }
 
 body {
@@ -27,21 +32,52 @@ body {
 }
 
 /*********/
+/* Menus */
+/*********/
+
+.menus {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0 0 20px 0;
+  padding: 0;
+}
+
+.menus > li {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  padding-right: 10px;
+  margin: 0 0 10px 0;
+}
+
+.menus > li > .ui-selectmenu-button {
+  margin: 0 0 5px 0;
+}
+
+.menus .ui-button {
+  width: 100%;
+}
+
+
+/*********/
 /* Items */
 /*********/
 
 ul.sortable { 
   list-style-type: none; 
   margin: 0; 
-  padding: 0; 
+  padding: 10px 0 0 10px;  
   width: auto;
+  max-width: 655px;
   overflow-y: hidden;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   flex-wrap: wrap;
-  border: none;
-  background-color: #fafafa;
+  border: 1px solid var(--sortable-border);
+  background: none;
   min-height: calc(var(--item-height) + 2px);
 }
 
@@ -65,8 +101,8 @@ ul.sortable li:hover {
   transition: background-color 0.15s ease;
 }
 
-ul.sortable li:not(:last-child) {
-  margin: 0 10px 0 0;
+ul.sortable li {
+  margin: 0 10px 10px 0;
 }
 
 ul.sortable li > .item {
@@ -74,27 +110,8 @@ ul.sortable li > .item {
   margin: 7px 10px 0 0;
 }
 
-.draggable {
-  background-image: var(--draggable-icon);
-  display: block;
-  width: 18px;
-  height: 18px;
-  float: left;
-  margin: 7px 5px 0 5px;
-  cursor: move;
-}
-
-.draggable-li {
-  display: inline-block;
-  cursor: move;
-  padding: 6px 10px;
-  width: 50px;
-}
-
 .selected {
-  /* border: 1px solid var(--item-border); */
   box-shadow: 0px 5px 5px -2px #00000033;
-  transition: box-shadow 0.25 ease;
 }
 
 .ui-sortable-placeholder {
@@ -112,8 +129,31 @@ ul.sortable li > .item {
 }
 
 .sortable .ui-button {
-  padding: 5px !important;
-  margin: 0;
+  padding: 5px 0 5px 5px !important;
+  margin: 0 !important;
+}
+
+
+/*************/
+/* Draggable */
+/*************/
+
+.draggable {
+  background-image: var(--draggable-icon);
+  /* filter: brightness(0.5); */
+  display: block;
+  width: 18px;
+  height: 18px;
+  float: left;
+  margin: 7px 2px 0 2px;
+  cursor: move;
+}
+
+.draggable-li {
+  display: inline-block;
+  cursor: move;
+  padding: 6px 10px;
+  width: 50px;
 }
 
 /*****************/
@@ -131,12 +171,12 @@ ul.sortable li > .item {
   border-radius: 0;
   line-height: 1;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: background-color 0.15s ease;
 }
 
 .remove:hover {
   background-color: var(--remove-btn-bg);
-  transition: all 0.15s ease;
+  transition: background-color 0.15s ease;
 }
 
 .remove:before {

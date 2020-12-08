@@ -46,9 +46,9 @@ $(function() {
     return $("<li data-item=" + type + ':' + cleanHtmlTag(val) + "><span class='draggable'></span><span class='item-content'></span><span class='remove'></span></li>");
   }
 
-  initMenu('comparison', 60);
+  initMenu('comparison', 50);
   initMenu('bracket', 40);
-  initMenu('logical', 70);
+  initMenu('logical', 65);
 
   var components = ['question', 'answer'];
 
@@ -92,7 +92,7 @@ $(function() {
   }
 
   $(".sortable").sortable({
-      axis: "x", 
+      // axis: "x", 
       items: "> li",
       handle: ".draggable",
       revert: true,
