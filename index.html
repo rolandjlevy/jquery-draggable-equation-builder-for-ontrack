@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Sortable rules builder for Ontrack using jQuery UI</title>
+  <title>Rule builder for Ontrack using jQuery UI</title>
   <link rel="stylesheet" href="styles/style.css">
   <link rel="stylesheet" href="styles/view-data.css">
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -15,8 +15,9 @@
 
     <main class="wrapper">
 
-      <section>
-        <h2 class="m-b-10">Build rules for a question dependency</h2>
+      <section class="container">
+
+        <h2 class="m-b-20">Build rules for a question dependency group</h2>
 
         <ul class="menus">
           <li>
@@ -75,6 +76,8 @@
           <ul class="sortable"></ul>
         </div>
 
+        <div class="rules" id="rules"></div>
+
         <button class="ui-button ui-widget ui-corner-all" id="reset" value="Reset">Reset</button>
 
       </section>
@@ -82,7 +85,7 @@
       <section class="display">
         <details open>
           <summary>Group data</summary>
-          <pre class="data"></pre>
+          <pre class="data" id="data"></pre>
         </details>
       </section>
 

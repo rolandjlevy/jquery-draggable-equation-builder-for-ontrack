@@ -20,16 +20,21 @@ details > summary {
   outline: none;
 }
 
-.data {
-  border: 1px solid #ccc;
+.data, .rules {
+  font-family: monospace;
+  border: 1px solid var(--generic-border);
   min-height: 20px;
-  width: auto;
+  width: fit-content;
   display: block; 
   clear: both; 
   float: left;
   margin: 15px 0 10px 0;
   padding: 10px;
   font-size: 1.125rem;
+}
+
+.rules {
+  margin: 0 0 20px 0;
 }
 
 @media only screen and (max-width: 1200px) {

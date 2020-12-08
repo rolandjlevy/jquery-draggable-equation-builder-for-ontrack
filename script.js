@@ -88,15 +88,17 @@ $(function() {
       return { component:pair[0], value:pair[1], sortOrder:index+1 };
     });
     var data = JSON.stringify(json, null, 2);
-    $('.data').text(data);
+    $('#data').text(data);
+    var rules = json.map(function(item){ return item.value; });
+    $('#rules').text(rules.join(" "));
   }
 
   $(".sortable").sortable({
       // axis: "x", 
       items: "> li",
       handle: ".draggable",
-      revert: true,
-      revertDuration: 50,
+      // revert: true,
+      // revertDuration: 50,
       placeholder: "ui-sortable-placeholder",
       change: function(event, ui) { },
       sort: function(event, ui){ ui.item.addClass("selected"); },

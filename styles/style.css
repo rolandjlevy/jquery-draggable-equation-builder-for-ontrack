@@ -4,7 +4,7 @@
   --item-border: #c5c5c5;
   --remove-btn-bg: #ddd;
   --remove-btn-bg-hover: #ccc;
-  --sortable-border: #ccc;
+  --generic-border: #ddd;
   --placeholder-border:#c1780e;
   --placeholder-bg: #ffe8af;
   --ontrack-green: #b3c022;
@@ -29,6 +29,11 @@ body {
 
 .m-b-20 {
   margin: 0 0 20px 0;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
 }
 
 /*********/
@@ -60,6 +65,9 @@ body {
   width: 100%;
 }
 
+#reset.ui-button {
+  width: 100px;
+}
 
 /*********/
 /* Items */
@@ -76,7 +84,7 @@ ul.sortable {
   flex-direction: row;
   justify-content: flex-start;
   flex-wrap: wrap;
-  border: 1px solid var(--sortable-border);
+  border: 1px solid var(--generic-border);
   background: none;
   min-height: calc(var(--item-height) + 2px);
 }
