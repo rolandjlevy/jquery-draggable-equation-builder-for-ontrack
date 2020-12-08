@@ -57,7 +57,7 @@ body {
   margin: 0 0 10px 0;
 }
 
-.menus > li > .ui-selectmenu-button {
+.menus > li .ui-selectmenu-button {
   margin: 0 0 5px 0;
 }
 
@@ -65,8 +65,23 @@ body {
   width: 100%;
 }
 
+.menus #answer-container > input {
+  padding: 5px;
+  width: 113px;
+  height: 21px;
+  margin: 0 0 5px 0;
+}
+
+.menus #answer-container {
+  background-color: var(--item-bg);
+  padding: 0;
+  width: 125px;
+  height: 33px;
+  margin: 0 0 5px 0;
+}
+
 #reset.ui-button {
-  width: 100px;
+  width: fit-content;
 }
 
 /*********/
