@@ -67,7 +67,7 @@ $(function() {
   /* Answers elements */
   /********************/
 
-  // Create Answer element in dependence upon Question menu
+  // Create Answer in dependence upon selection from Question menu 
   function createAnswerElement(selectedIndex) {
     var answerContainer = $('#answer-container');
     answerContainer.empty();
@@ -75,7 +75,6 @@ $(function() {
     if (answer.type == 'select') {
       $(answer.value).clone().appendTo(answerContainer).selectmenu({ 
         width: uiElementWidth,
-        create: function() { },
         change: function(e, data) {
           var value = data.item.value;
           var index = data.item.index;
@@ -174,6 +173,7 @@ $(function() {
   $(".sortable").sortable({
     items: "> li",
     handle: ".draggable",
+    tolerance: "pointer",
     placeholder: "ui-sortable-placeholder",
     change: function(event, ui) { },
     sort: function(event, ui){ ui.item.addClass("selected"); },

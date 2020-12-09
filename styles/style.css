@@ -106,7 +106,7 @@ ul.sortable {
   flex-wrap: wrap;
   border: 1px solid var(--generic-border);
   background: none;
-  min-height: calc(var(--item-height) + 2px);
+  min-height: calc(var(--item-height) + 12px);
 }
 
 ul.sortable li {
@@ -121,12 +121,12 @@ ul.sortable li {
   padding: 0;
   height: var(--item-height);
   border: 1px solid var(--item-border);
-  transition: all 0.15s ease;
+  /* transition: all 0.15s ease; */
 }
 
 ul.sortable li:hover {
   background-color: var(--item-bg-hover);
-  transition: background-color 0.15s ease;
+  /* transition: background-color 0.15s ease; */
 }
 
 ul.sortable li {
@@ -148,6 +148,7 @@ ul.sortable li .item {
   border: var(--border-size) dashed var(--placeholder-border) !important;
   background-color: var(--placeholder-bg) !important;
   height: calc(--item-height - var(--border-size) * 2) !important;
+  min-height: calc(--item-height - var(--border-size) * 2) !important;
   min-width: 83px !important;
   padding: 0 !important;
 }
@@ -198,12 +199,12 @@ ul.sortable li .item {
   border-radius: 0;
   line-height: 1;
   cursor: pointer;
-  transition: background-color 0.15s ease;
+  /* transition: background-color 0.15s ease; */
 }
 
 .remove:hover {
   background-color: var(--remove-btn-bg);
-  transition: background-color 0.15s ease;
+  /* transition: background-color 0.15s ease; */
 }
 
 .remove:before {
