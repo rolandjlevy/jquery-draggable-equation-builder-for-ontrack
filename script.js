@@ -4,7 +4,7 @@ $(function() {
   /* Initialise */
   /**************/
 
-  var uiElementWidth = 125;
+  // var uiElementWidth = 125;
 
   // Define sortable menu items
   var menus = {
@@ -21,60 +21,38 @@ $(function() {
     { type:'input', value:'<input class="answer ui-widget ui-widget-content ui-corner-all" placeholder="Enter..." />' }
   ];
 
-  // Initialise all select menus
-  $("select").selectmenu({
-    width: uiElementWidth,
-    change: function(e, ui) {
-      $('#add-' + this.id).attr('disabled', !ui.item.index);
-    }
-  });
+  function Component(type) {
+    this.type = type;
+    this.sortableItem = $(menus[type]);
+    this.menuSelector = $('select#' + type);
+    this.buttonSelector = $('#add-' + type);
+    this.uiElementWidth = 125;
+  };
 
-  /***************************/
-  /* Questions menu & button */
-  /***************************/
-
-  // Initialise Questions select menu
-  $("select#question").selectmenu({
-    width: uiElementWidth,
-    change: function(e, data) {
-      var selectedIndex = $('option:selected', this).index();
-      if (!selectedIndex) return;
-      $('#add-answer').attr('disabled', !data.item.index);
-      $('#add-question').attr('disabled', !data.item.index);
-      createAnswerElement(selectedIndex);
-    },
-    create: function(event, ui) { }
-  });
-
-  // Event handler for adding a Question
-  $('#add-question').unbind('click').click(function(){
-    var selectedText = $('#question').val();
-    if (!selectedText) return;
-    var item = createListItem('question', selectedText);
-    var itemContent = item.find('.item-content');
-    itemContent.html('<span class="item">' + selectedText + '</span>');
-    item.appendTo($('.sortable'));
-    $(".sortable .remove").unbind('click').click(function(e){
-      var data = $(e.target.parentNode).attr('data-item');
-      $(this).parent().remove();
-      updateData(".sortable");
+  Component.prototype.initSelectMenu = function() {
+    var component = this;
+    this.menuSelector.selectmenu({
+      width: component.uiElementWidth,
+      change: function(e, ui) {
+        var selectedIndex = $('option:selected', this).index();
+        if (!selectedIndex) return;
+        component.buttonSelector.attr('disabled', !ui.item.index);
+        if (component.type == 'question') {
+          $('#add-answer').attr('disabled', !ui.item.index);
+          component.createAnswerElement(selectedIndex);
+        }
+      }
     });
-    $(".sortable").sortable("refresh");
-    updateData(".sortable");
-  });
+  }
 
-  /********************/
-  /* Answers elements */
-  /********************/
-
-  // Create Answer in dependence upon selection from Question menu 
-  function createAnswerElement(selectedIndex) {
+  Component.prototype.createAnswerElement = function(selectedIndex) {
+    var component = this;
     var answerContainer = $('#answer-container');
     answerContainer.empty();
     var answer = answers[selectedIndex-1];
     if (answer.type == 'select') {
       $(answer.value).clone().appendTo(answerContainer).selectmenu({ 
-        width: uiElementWidth,
+        width: component.uiElementWidth,
         change: function(e, data) {
           var value = data.item.value;
           var index = data.item.index;
@@ -85,55 +63,18 @@ $(function() {
       $(answer.value).clone().appendTo(answerContainer);
     }
   }
-  
-  // Event handler for adding an answer element
-  $('#add-answer').unbind('click').click(function(){
-    var val = $('#answer-container > .answer').val();
-    var selectedIndex = $('#question option:selected').index();
-    var item = createListItem('answer', val);
-    item.appendTo($('.sortable'));
-    var itemContent = item.find('.item-content');
-    var answer = answers[selectedIndex-1];
-    if (answer.type == 'select') {
-      $(answer.value).clone().appendTo($(itemContent)).selectmenu({ 
-        width: 65,
-        change: function(event, ui) {
-          $(this).parent().parent().attr('data-item', 'answer:' + ui.item.value);
-          updateData('.sortable');
-        },
-        create: function(event, ui) {
-          $(this).val(val);
-          $(this).selectmenu('refresh');
-        }
-      });
-    } else {
-      $(answer.value).clone().appendTo($(itemContent));
-      var inputField = itemContent.find('.answer');
-      inputField.val(val);
-      inputField.unbind('keyup').keyup(function(e){
-        $(this).parent().parent().attr('data-item', 'answer:' + e.target.value);
-        updateData('.sortable');
-      });
-    }
-    $('.sortable .remove').unbind('click').click(function(e) {
-      $(this).parent().remove();
-      updateData('.sortable');
-    });
-    updateData('.sortable');
-    $('.sortable').sortable('refresh');
-  });
 
-  // Event handler for adding a comparison, bracket and logical menu
-  function initMenu(type, width) {
-    $('#add-' + type).unbind('click').click(function(e) {
-      var val = $('#' + type).val();
-      var item = createListItem(type, val);
+  Component.prototype.addItemEventHandler = function(width) {
+    var component = this;
+    $('#add-' + component.type).unbind('click').click(function(e) {
+      var val = $('#' + component.type).val();
+      var item = component.createListItem(val);
       item.appendTo($('.sortable'));
       var itemContent = item.find('.item-content');
-      $(menus[type]).clone().appendTo($(itemContent)).selectmenu({
+      $(menus[component.type]).clone().appendTo($(itemContent)).selectmenu({
         width: width,
         change: function(event, ui) {
-          $(this).parent().parent().attr('data-item', type + ':' + ui.item.value);
+          $(this).parent().parent().attr('data-item', component.type + ':' + ui.item.value);
           updateData('.sortable');
         },
         create: function(event, ui) {
@@ -150,15 +91,230 @@ $(function() {
     });
   }
 
-  // Create a list item for sortable area
-  function createListItem(type, val) {
+  Component.prototype.addQuestionItemEventHandler = function() {
+    var component = this;
+    $('#add-question').unbind('click').click(function(){
+      var selectedText = $('#question').val();
+      if (!selectedText) return;
+      var item = component.createListItem(selectedText);
+      var itemContent = item.find('.item-content');
+      itemContent.html('<span class="item">' + selectedText + '</span>');
+      item.appendTo($('.sortable'));
+      $(".sortable .remove").unbind('click').click(function(e){
+        var data = $(e.target.parentNode).attr('data-item');
+        $(this).parent().remove();
+        updateData(".sortable");
+      });
+      $(".sortable").sortable("refresh");
+      updateData(".sortable");
+    });
+  }
+   
+  Component.prototype.addAnswerItemEventHandler = function(width) {
+    var component = this;
+    $('#add-answer').unbind('click').click(function(){
+      var val = $('#answer-container > .answer').val();
+      var selectedIndex = $('#question option:selected').index();
+      var item = component.createListItem(val);
+      item.appendTo($('.sortable'));
+      var itemContent = item.find('.item-content');
+      var answer = answers[selectedIndex-1];
+      if (answer.type == 'select') {
+        $(answer.value).clone().appendTo($(itemContent)).selectmenu({ 
+          width: width,
+          change: function(event, ui) {
+            $(this).parent().parent().attr('data-item', 'answer:' + ui.item.value);
+            updateData('.sortable');
+          },
+          create: function(event, ui) {
+            $(this).val(val);
+            $(this).selectmenu('refresh');
+          }
+        });
+      } else {
+        $(answer.value).clone().appendTo($(itemContent));
+        var inputField = itemContent.find('.answer');
+        inputField.val(val);
+        inputField.unbind('keyup').keyup(function(e){
+          $(this).parent().parent().attr('data-item', 'answer:' + e.target.value);
+          updateData('.sortable');
+        });
+      }
+      $('.sortable .remove').unbind('click').click(function(e) {
+        $(this).parent().remove();
+        updateData('.sortable');
+      });
+      updateData('.sortable');
+      $('.sortable').sortable('refresh');
+    });
+  }
+    
+  Component.prototype.createListItem = function(val) {
     var cleanedValue = val.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    return $("<li data-item=" + type + ':' + cleanedValue + "><span class='draggable'></span><span class='item-content'></span><span class='remove'></span></li>");
+    return $("<li data-item=" + this.type + ':' + cleanedValue + "><span class='draggable'></span><span class='item-content'></span><span class='remove'></span></li>");
   }
 
-  initMenu('comparison', 50);
-  initMenu('bracket', 40);
-  initMenu('logical', 65);
+  var questionComponent = new Component('question');
+  questionComponent.initSelectMenu();
+  questionComponent.addQuestionItemEventHandler();
+
+  var answerComponent = new Component('answer');
+  answerComponent.addAnswerItemEventHandler(65);
+
+  var logicalComponent = new Component('logical');
+  logicalComponent.initSelectMenu();
+  logicalComponent.addItemEventHandler(65);
+
+  var bracketComponent = new Component('bracket');
+  bracketComponent.initSelectMenu();
+  bracketComponent.addItemEventHandler(40);
+
+  var comparisonComponent = new Component('comparison');
+  comparisonComponent.initSelectMenu();
+  comparisonComponent.addItemEventHandler(50);
+
+  // Initialise all select menus
+  // $("select").selectmenu({
+  //   width: uiElementWidth,
+  //   change: function(e, ui) {
+  //     $('#add-' + this.id).attr('disabled', !ui.item.index);
+  //   }
+  // });
+
+  /***************************/
+  /* Questions menu & button */
+  /***************************/
+
+  // Initialise Questions select menu
+  // $("select#question").selectmenu({
+  //   width: uiElementWidth,
+  //   change: function(e, data) {
+  //     var selectedIndex = $('option:selected', this).index();
+  //     if (!selectedIndex) return;
+  //     $('#add-answer').attr('disabled', !data.item.index);
+  //     $('#add-question').attr('disabled', !data.item.index);
+  //     createAnswerElement(selectedIndex);
+  //   }
+  // });
+
+  // Event handler for adding a Question item
+  // function addQuestionItemEventHandler() {
+  //   $('#add-question').unbind('click').click(function(){
+  //     var selectedText = $('#question').val();
+  //     if (!selectedText) return;
+  //     var item = createListItem('question', selectedText);
+  //     var itemContent = item.find('.item-content');
+  //     itemContent.html('<span class="item">' + selectedText + '</span>');
+  //     item.appendTo($('.sortable'));
+  //     $(".sortable .remove").unbind('click').click(function(e){
+  //       var data = $(e.target.parentNode).attr('data-item');
+  //       $(this).parent().remove();
+  //       updateData(".sortable");
+  //     });
+  //     $(".sortable").sortable("refresh");
+  //     updateData(".sortable");
+  //   });
+  // }
+  /********************/
+  /* Answers elements */
+  /********************/
+
+  // Create Answer in dependence upon selection from Question menu 
+  // function createAnswerElement(selectedIndex) {
+  //   var answerContainer = $('#answer-container');
+  //   answerContainer.empty();
+  //   var answer = answers[selectedIndex-1];
+  //   if (answer.type == 'select') {
+  //     $(answer.value).clone().appendTo(answerContainer).selectmenu({ 
+  //       width: uiElementWidth,
+  //       change: function(e, data) {
+  //         var value = data.item.value;
+  //         var index = data.item.index;
+  //         console.log({ value, index });
+  //       },
+  //     }).selectmenu("refresh");
+  //   } else {
+  //     $(answer.value).clone().appendTo(answerContainer);
+  //   }
+  // }
+  
+  // Event handler for adding an answer element
+  // function addAnswerItemEventHandler(width) {
+  //   $('#add-answer').unbind('click').click(function(){
+  //     var val = $('#answer-container > .answer').val();
+  //     var selectedIndex = $('#question option:selected').index();
+  //     var item = createListItem(val);
+  //     item.appendTo($('.sortable'));
+  //     var itemContent = item.find('.item-content');
+  //     var answer = answers[selectedIndex-1];
+  //     if (answer.type == 'select') {
+  //       $(answer.value).clone().appendTo($(itemContent)).selectmenu({ 
+  //         width: width,
+  //         change: function(event, ui) {
+  //           $(this).parent().parent().attr('data-item', 'answer:' + ui.item.value);
+  //           updateData('.sortable');
+  //         },
+  //         create: function(event, ui) {
+  //           $(this).val(val);
+  //           $(this).selectmenu('refresh');
+  //         }
+  //       });
+  //     } else {
+  //       $(answer.value).clone().appendTo($(itemContent));
+  //       var inputField = itemContent.find('.answer');
+  //       inputField.val(val);
+  //       inputField.unbind('keyup').keyup(function(e){
+  //         $(this).parent().parent().attr('data-item', 'answer:' + e.target.value);
+  //         updateData('.sortable');
+  //       });
+  //     }
+  //     $('.sortable .remove').unbind('click').click(function(e) {
+  //       $(this).parent().remove();
+  //       updateData('.sortable');
+  //     });
+  //     updateData('.sortable');
+  //     $('.sortable').sortable('refresh');
+  //   });
+  // }
+
+  // Event handler for adding a comparison, bracket and logical menu
+  // function addItemEventHandler(type, width) {
+  //   $('#add-' + type).unbind('click').click(function(e) {
+  //     var val = $('#' + type).val();
+  //     var item = createListItem(type, val);
+  //     item.appendTo($('.sortable'));
+  //     var itemContent = item.find('.item-content');
+  //     $(menus[type]).clone().appendTo($(itemContent)).selectmenu({
+  //       width: width,
+  //       change: function(event, ui) {
+  //         $(this).parent().parent().attr('data-item', type + ':' + ui.item.value);
+  //         updateData('.sortable');
+  //       },
+  //       create: function(event, ui) {
+  //         $(this).val(val);
+  //         $(this).selectmenu('refresh');
+  //       }
+  //     });
+  //     $('.sortable .remove').unbind('click').click(function(e) {
+  //       $(this).parent().remove();
+  //       updateData('.sortable');
+  //     });
+  //     updateData('.sortable');
+  //     $('.sortable').sortable('refresh');
+  //   });
+  // }
+
+  // Create a list item for sortable area
+  // function createListItem(type, val) {
+  //   var cleanedValue = val.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  //   return $("<li data-item=" + type + ':' + cleanedValue + "><span class='draggable'></span><span class='item-content'></span><span class='remove'></span></li>");
+  // }
+
+  // addItemEventHandler('comparison', 50);
+  // addItemEventHandler('bracket', 40);
+  // addItemEventHandler('logical', 65);
+  // addAnswerItemEventHandler(65);
+  // addQuestionItemEventHandler();
 
   // Event handler for reset button
   $('#reset').unbind('click').click(function(){
@@ -175,9 +331,15 @@ $(function() {
     handle: ".draggable",
     tolerance: "pointer",
     placeholder: "ui-sortable-placeholder",
-    change: function(event, ui) { },
-    sort: function(event, ui){ ui.item.addClass("selected"); },
-    stop: function(event, ui){ ui.item.removeClass("selected"); },
+    forcePlaceholderSize: true,
+    change: function(e, ui) { },
+    start: function(e, ui){
+      var helperHeight = ui.helper.outerHeight();
+      var itemHeight = ui.item.height();
+      ui.placeholder.height(helperHeight);
+    },
+    sort: function(e, ui){ ui.item.addClass("selected"); },
+    stop: function(e, ui){ ui.item.removeClass("selected"); },
     update: function(e, ui) { updateData(this); }
   });
 
