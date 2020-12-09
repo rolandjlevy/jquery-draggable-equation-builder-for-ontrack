@@ -4,15 +4,15 @@ $(function() {
   /* Define constants */
   /********************/
 
-  // Sortable items
-  var ITEMS = {
+  // Menu items for cloning
+  var menuItems = {
     logical: '<select name="logical" class="ui-selectmenu-menu ui-widget ui-corner-all"><option value="AND">AND</option><option value="OR">OR</option></select>',
     bracket: '<select name="bracket" id="bracket-clone" class="ui-selectmenu-menu ui-widget ui-corner-all"><option value="(">(</option><option value=")">)</option></select>',
     comparison: '<select name="comparison" class="ui-selectmenu-menu ui-widget ui-corner-all"><option value="==">==</option><option value="!=">!=</option><option value="<">&lt;</option><option value=">">&gt;</option><option value="<=">&lt;=</option><option value=">=">&gt;=</option></select>'
   }
 
   // Answer types
-  var ANSWERS = [
+  var answers = [
     { type:'select', value:'<select name="boolean" class="answer ui-selectmenu-menu ui-widget ui-corner-all"><option value="yes">Yes</option><option value="no">No</option></select>' },
     { type:'select', value:'<select name="range-abc" class="answer ui-selectmenu-menu ui-widget ui-corner-all"><option value="na">N/A</option><option value="pass">Pass</option></select>' },
     { type:'select', value:'<select name="range-numeric" class="answer ui-selectmenu-menu ui-widget ui-corner-all"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>' },
@@ -39,10 +39,9 @@ $(function() {
       change: function(e, ui) {
         var selectedIndex = $('option:selected', this).index();
         component.button.attr('disabled', !ui.item.index);
-        // if (!selectedIndex) return;
         if (component.type == 'question') {
-          $('button#add-answer').attr('disabled', !ui.item.index);
-          component.createAnswerElement(selectedIndex);
+          ui.item.index || $('button#add-answer').attr('disabled', true);
+          component.createAnswerElement(selectedIndex, 65);
         }
       }
     });
@@ -54,13 +53,16 @@ $(function() {
     var answerContainer = $('span#answer-container');
     answerContainer.empty();
     if (!selectedIndex) return false;
-    var answer = ANSWERS[selectedIndex-1];
+    var answer = answers[selectedIndex-1];
     if (answer.type == 'select') {
-      $(answer.value).clone().appendTo(answerContainer).selectmenu({ 
+      var answerMenu = $(answer.value);
+      answerMenu.prepend('<option value="">- answers -</option>'); 
+      answerMenu.clone().appendTo(answerContainer).selectmenu({ 
         width: component.elementWidth,
         change: function(e, ui) {
           var value = ui.item.value;
           var index = ui.item.index;
+          $('button#add-answer').attr('disabled', !ui.item.index);
         },
       }).selectmenu("refresh");
     } else {
@@ -76,7 +78,7 @@ $(function() {
       var item = component.createSortableItem(val);
       item.appendTo($('.sortable'));
       var itemContent = item.find('.item-content');
-      $(ITEMS[component.type]).clone().appendTo($(itemContent)).selectmenu({
+      $(menuItems[component.type]).clone().appendTo($(itemContent)).selectmenu({
         width: width,
         create: function(event, ui) {
           $(this).val(val);
@@ -114,7 +116,7 @@ $(function() {
       var item = component.createSortableItem(val);
       item.appendTo($('.sortable'));
       var itemContent = item.find('.item-content');
-      var answer = ANSWERS[selectedIndex-1];
+      var answer = answers[selectedIndex-1];
       if (answer.type == 'select') {
         $(answer.value).clone().appendTo($(itemContent)).selectmenu({ 
           width: width,
