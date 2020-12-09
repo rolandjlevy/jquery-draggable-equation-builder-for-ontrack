@@ -53,13 +53,14 @@ $(function() {
     var component = this;
     var answerContainer = $('span#answer-container');
     answerContainer.empty();
+    if (!selectedIndex) return false;
     var answer = ANSWERS[selectedIndex-1];
     if (answer.type == 'select') {
       $(answer.value).clone().appendTo(answerContainer).selectmenu({ 
         width: component.elementWidth,
-        change: function(e, data) {
-          var value = data.item.value;
-          var index = data.item.index;
+        change: function(e, ui) {
+          var value = ui.item.value;
+          var index = ui.item.index;
         },
       }).selectmenu("refresh");
     } else {
@@ -194,11 +195,9 @@ $(function() {
     tolerance: "pointer",
     placeholder: "ui-sortable-placeholder",
     forcePlaceholderSize: true,
-    change: function(e, ui) { },
     start: function(e, ui){
-      var helperHeight = ui.helper.outerHeight();
       var itemHeight = ui.item.height();
-      ui.placeholder.height(helperHeight);
+      ui.placeholder.height(itemHeight);
     },
     sort: function(e, ui){ ui.item.addClass("selected"); },
     stop: function(e, ui){ ui.item.removeClass("selected"); },
@@ -222,7 +221,9 @@ $(function() {
 
   // Event handler for reset button
   $('#reset').unbind('click').click(function(){
-    $(".sortable > li").each(function() { $(this).remove(); });
+    $(".sortable > li").each(function() { 
+      $(this).remove(); 
+    });
     updateData(".sortable");
   });
 
