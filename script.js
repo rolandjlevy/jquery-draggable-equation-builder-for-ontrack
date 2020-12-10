@@ -37,10 +37,9 @@ $(function() {
     this.menu.selectmenu({
       width: component.elementWidth,
       change: function(e, ui) {
-        var selectedIndex = $('option:selected', this).index();
         component.button.attr('disabled', !ui.item.index);
         if (component.type == 'question') {
-          ui.item.index || $('button#add-answer').attr('disabled', true);
+          var selectedIndex = $('option:selected', this).index();
           component.createAnswerElement(selectedIndex, 65);
         }
       }
@@ -52,7 +51,10 @@ $(function() {
     var component = this;
     var answerContainer = $('span#answer-container');
     answerContainer.empty();
-    if (!selectedIndex) return false;
+    if (!selectedIndex) {
+      $('button#add-answer').attr('disabled', true);
+      return false;
+    }
     var answer = answers[selectedIndex-1];
     if (answer.type == 'select') {
       var answerMenu = $(answer.value);
@@ -66,7 +68,11 @@ $(function() {
         },
       }).selectmenu("refresh");
     } else {
-      $(answer.value).clone().appendTo(answerContainer);
+      var inputAnswer = $(answer.value).clone().appendTo(answerContainer);
+      inputAnswer.focus();
+      inputAnswer.unbind('keyup').keyup(function(e) {
+        $('button#add-answer').attr('disabled', !e.target.value.trim());
+      });
     }
   }
 
@@ -85,11 +91,10 @@ $(function() {
           $(this).selectmenu('refresh');
         },
         change: function(event, ui) {
-          $(this).parent().parent().attr('data-item', component.type + ':' + ui.item.value);
-          updateData('.sortable');
+          component.updateDataItem(this, component.type, ui.item.value);
         }
       });
-      component.removeEventHandler();
+      component.removeItemEventHandler();
     });
   }
 
@@ -103,7 +108,7 @@ $(function() {
       var itemContent = item.find('.item-content');
       itemContent.html('<span class="item">' + selectedText + '</span>');
       item.appendTo($('.sortable'));
-      component.removeEventHandler();
+      component.removeItemEventHandler();
     });
   }
   
@@ -112,17 +117,16 @@ $(function() {
     var component = this;
     $('#add-answer').unbind('click').click(function(){
       var val = $('span#answer-container > .answer').val();
-      var selectedIndex = $('#question option:selected').index();
       var item = component.createSortableItem(val);
       item.appendTo($('.sortable'));
       var itemContent = item.find('.item-content');
+      var selectedIndex = $('#question option:selected').index();
       var answer = answers[selectedIndex-1];
       if (answer.type == 'select') {
         $(answer.value).clone().appendTo($(itemContent)).selectmenu({ 
           width: width,
           change: function(event, ui) {
-            $(this).parent().parent().attr('data-item', 'answer:' + ui.item.value);
-            updateData('.sortable');
+            component.updateDataItem(this, 'answer', ui.item.value);
           },
           create: function(event, ui) {
             $(this).val(val);
@@ -134,19 +138,18 @@ $(function() {
         var inputField = itemContent.find('.answer');
         inputField.val(val);
         inputField.unbind('keyup').keyup(function(e){
-          $(this).parent().parent().attr('data-item', 'answer:' + e.target.value);
-          updateData('.sortable');
+          component.updateDataItem(this, 'answer', e.target.value);
         });
       }
-      $('.sortable .remove').unbind('click').click(function(e) {
-        $(this).parent().remove();
-        updateData('.sortable');
-      });
-      updateData('.sortable');
-      $('.sortable').sortable('refresh');
+      component.removeItemEventHandler();
     });
   }
-  
+
+  Component.prototype.updateDataItem = function(context, type, value) {
+    $(context).parent().parent().attr('data-item', type + ':' + value);
+    updateSortableData('.sortable');
+  }
+
   // Create a sortable item for sortable area
   Component.prototype.createSortableItem = function(val) {
     var cleanedValue = val.replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -154,13 +157,13 @@ $(function() {
   }
 
   // Event handler for removing an item
-  Component.prototype.removeEventHandler = function() {
+  Component.prototype.removeItemEventHandler = function() {
     $(".sortable .remove").unbind('click').click(function(e){
       $(this).parent().remove();
-      updateData(".sortable");
+      updateSortableData(".sortable");
     });
     $(".sortable").sortable("refresh");
-    updateData(".sortable");
+    updateSortableData(".sortable");
   }
 
   /**************************/
@@ -203,11 +206,11 @@ $(function() {
     },
     sort: function(e, ui){ ui.item.addClass("selected"); },
     stop: function(e, ui){ ui.item.removeClass("selected"); },
-    update: function(e, ui) { updateData(this); }
+    update: function(e, ui) { updateSortableData(this); }
   });
 
   // Update data for backend
-  function updateData(elem) {
+  function updateSortableData(elem) {
     var group = $(elem).sortable("toArray", { attribute: "data-item" });
     var json = group.map(function(item, index){
       var pair = item.split(':');
@@ -219,14 +222,14 @@ $(function() {
     $('#rules').text(rules.join(" "));
   }
 
-  updateData('.sortable');
+  updateSortableData('.sortable');
 
   // Event handler for reset button
   $('#reset').unbind('click').click(function(){
     $(".sortable > li").each(function() { 
       $(this).remove(); 
     });
-    updateData(".sortable");
+    updateSortableData(".sortable");
   });
 
 });
