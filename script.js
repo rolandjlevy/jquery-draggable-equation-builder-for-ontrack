@@ -39,6 +39,7 @@ $(function() {
       change: function(e, ui) {
         component.button.attr('disabled', !ui.item.index);
         if (component.type == 'question') {
+          $('button#add-answer').attr('disabled', true);
           var selectedIndex = $('option:selected', this).index();
           component.createAnswerElement(selectedIndex, 65);
         }
@@ -51,10 +52,7 @@ $(function() {
     var component = this;
     var answerContainer = $('span#answer-container');
     answerContainer.empty();
-    if (!selectedIndex) {
-      $('button#add-answer').attr('disabled', true);
-      return false;
-    }
+    if (!selectedIndex) return false;
     var answer = answers[selectedIndex-1];
     if (answer.type == 'select') {
       var answerMenu = $(answer.value);
