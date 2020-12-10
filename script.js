@@ -136,7 +136,7 @@ $(function() {
         var inputField = itemContent.find('.answer');
         inputField.val(val);
         inputField.unbind('keyup').keyup(function(e){
-          component.updateDataItem(this, 'answer', e.target.value);
+          component.updateDataItem(this, 'answer', e.target.value.trim());
         });
       }
       component.removeItemEventHandler();
