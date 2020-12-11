@@ -148,13 +148,13 @@ $(function() {
     updateSortableData('.sortable');
   }
 
-  // Create a sortable item for sortable area
+  // Create an item for sortable area
   Component.prototype.createSortableItem = function(val) {
     var cleanedValue = val.replace(/</g, "&lt;").replace(/>/g, "&gt;");
     return $("<li data-item=" + this.type + ':' + cleanedValue + "><span class='draggable'></span><span class='item-content'></span><span class='remove'></span></li>");
   }
 
-  // Event handler for removing an item
+  // Event handler for removing an item from the sortable area
   Component.prototype.removeItemEventHandler = function() {
     $(".sortable .remove").unbind('click').click(function(e){
       $(this).parent().remove();
@@ -207,7 +207,7 @@ $(function() {
     update: function(e, ui) { updateSortableData(this); }
   });
 
-  // Update data for backend
+  // Update data for sending to backend
   function updateSortableData(elem) {
     var group = $(elem).sortable("toArray", { attribute: "data-item" });
     var json = group.map(function(item, index){
@@ -224,9 +224,7 @@ $(function() {
 
   // Event handler for reset button
   $('#reset').unbind('click').click(function(){
-    $(".sortable > li").each(function() { 
-      $(this).remove(); 
-    });
+    $(".sortable > li").each(function() { $(this).remove(); });
     updateSortableData(".sortable");
   });
 
