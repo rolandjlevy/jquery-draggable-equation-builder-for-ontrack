@@ -24,11 +24,11 @@ body {
 }
 
 .m-b-10 {
-  margin: 0 0 10px 0;
+  margin-bottom: 10px;
 }
 
 .m-b-20 {
-  margin: 0 0 20px 0;
+  margin-bottom: 20px;
 }
 
 .container {
@@ -105,8 +105,8 @@ ul.sortable {
   justify-content: flex-start;
   flex-wrap: wrap;
   border: 1px solid var(--generic-border);
-  background: none;
   min-height: calc(var(--item-height) + 12px);
+  background: none;
 }
 
 ul.sortable li {
@@ -121,12 +121,10 @@ ul.sortable li {
   padding: 0;
   height: var(--item-height);
   border: 1px solid var(--item-border);
-  /* transition: all 0.15s ease; */
 }
 
 ul.sortable li:hover {
   background-color: var(--item-bg-hover);
-  /* transition: background-color 0.15s ease; */
 }
 
 ul.sortable li {
@@ -161,7 +159,6 @@ ul.sortable li .item {
   padding: 5px 0 5px 5px !important;
   margin: 0 !important;
 }
-
 
 /*************/
 /* Draggable */
@@ -199,12 +196,10 @@ ul.sortable li .item {
   border-radius: 0;
   line-height: 1;
   cursor: pointer;
-  /* transition: background-color 0.15s ease; */
 }
 
 .remove:hover {
   background-color: var(--remove-btn-bg);
-  /* transition: background-color 0.15s ease; */
 }
 
 .remove:before {
